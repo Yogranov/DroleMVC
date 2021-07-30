@@ -1,0 +1,135 @@
+﻿@using Drole.ViewModels
+@model CountryFormViewModel
+
+@{
+    ViewBag.Title = @Model.Title();
+}
+
+
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-xs-12 text-center" data-aos="zoom-in">
+            <h2 class="page-title">@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mx-auto col-sm-12 col-lg-8" data-aos="zoom-in">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0 text-center">@Model.SubTitle() מדינה</h4>
+                </div>
+                <div class="card-body text-right">
+                    @using (Html.BeginForm("Save", "Countries", FormMethod.Post, new {
+                        @class = "form-horizontal",
+                        role = "form",
+                        id = "new-country-form",
+                        autocomplete = "off",
+                        enctype = "multipart/form-data"
+                    })) {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group row">
+                            <label for="new-country-name" class="col-sm-3 col-form-label form-control-label">שם המדינה</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Country.Name, new {
+                                    @class = "form-control",
+                                    placeholder = "ישראל",
+                                    id = "new-country-name",
+                                })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="new-country-name-english" class="col-sm-3 col-form-label form-control-label">שם המדינה באנגלית</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Country.EnglishName, new {
+                                    @class = "form-control",
+                                    placeholder = "Israel",
+                                    id = "new-country-name-english",
+                                })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">חוקים</label>
+                            <div class="col-sm-9  float-right">
+
+                                <ul class="" id="laws-list">
+                                    @if (Model.Laws.Count == 0) {
+                                        <li class="mb-2">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input class="form-control" type="text" name="laws" placeholder="חוק חדש"/>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-danger" onclick="$(this).closest('li').remove()">X</button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                    else {
+                                        foreach (var law in Model.Laws) {
+                                        <li class="mb-2">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input class="form-control" type="text" name="laws" value="@law" />
+                                                </div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-danger" onclick="$(this).closest('li').remove()">X</button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                         }
+                                    }
+                                    
+                                </ul>
+                                <span id="add-law" class="btn btn-success float-left">חוק נוסף</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="new-country-main-image" class="col-sm-3 col-form-label form-control-label">תמונת מהמדינה</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="IconImageFile" id="new-country-main-image" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="new-country-main-image" class="col-sm-3 col-form-label form-control-label">תמונת רקע</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="BackgroundImageFile" id="new-country-background-image" />
+                            </div>
+                        </div>
+                        @Html.HiddenFor(m => m.Country.Id, new {value = Model.Country.Id})
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label"></label>
+                            <div class="col-sm-9">
+                                <input type="submit" class="btn btn-primary" value="שמור">
+                                <input type="reset" class="btn btn-secondary mr-2" id="new-country-reset" value="איפוס">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+            $("#add-law").click(function () {
+                $("#laws-list").append('<li class="mb-2"><div class="row"><div class="col-10"><input class="form-control" type="text" name="laws" placeholder="חוק חדש"/></div><div class="col-2"><button class="btn btn-danger" onclick="$(this).closest(\'li\').remove()">X</button></div></div></li>');
+            });
+
+        });
+
+    </script>
+}

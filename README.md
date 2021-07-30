@@ -1,0 +1,1 @@
+Drole is an open platform to share drones info about location and local rules.

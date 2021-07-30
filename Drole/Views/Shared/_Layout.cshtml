@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DroLe</title>
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    @Html.Partial("_NavBar")
+    
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/lib")
+        
+    @RenderSection("scripts", required: false)
+    
+    <script>
+        AOS.init();
+    </script>
+
+@Html.Partial("_Footer")
+
+</body>
+</html>

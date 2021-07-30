@@ -1,0 +1,274 @@
+﻿@model Drole.Models.RegisterViewModel
+@{
+    ViewBag.Title = "הרשמה";
+}
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-xs-12 text-center" data-aos="zoom-in">
+            <h2 class="page-title">@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mx-auto col-sm-10 col-lg-6" data-aos="zoom-in">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0 text-center">מידע על המשתמש</h4>
+                </div>
+                <div class="card-body text-right">
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {
+                        @class = "form-horizontal",
+                        role = "form",
+                        id = "register-form",
+                        autocomplete = "off"
+                    })) {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">שם פרטי</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.FirstName, new {
+                               @class = "form-control",
+                               placeholder = "ישראל",
+                               id = "register-firstName"
+                           })
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="alert alert-danger" id="register-error-firstName"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">שם משפחה</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.LastName, new {
+                               @class = "form-control",
+                               placeholder = "ישראלי",
+                               id = "register-lastName"
+                           })
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="alert alert-danger" id="register-error-lastName"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">דואר אלקטרוני</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Email, new {
+                               @class = "form-control",
+                               placeholder = "xxx@xxx.xxx",
+                               id = "register-email"
+                           })
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="alert alert-danger" id="register-error-email"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">סיסמה</label>
+                            <div class="col-sm-9">
+                                @Html.PasswordFor(m => m.Password, new {
+                               @class = "form-control",
+                               placeholder = "*******",
+                               id = "register-password"
+                           })
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="alert alert-danger" id="register-error-password"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">שוב סיסמה</label>
+                            <div class="col-sm-9">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new {
+                               @class = "form-control",
+                               placeholder = "*******",
+                               id = "register-passwordConfirm"
+                           })
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="alert alert-danger" id="register-error-passwordConfirm"></div>
+                            </div>
+                        </div>
+                        <div class="form-check col-sm-12 text-center mt-2 mb-4">
+                            <label class="form-check-label">
+                                @Html.CheckBoxFor(r => r.TermsOfUse)
+                                אני מאשר את @Html.ActionLink("תנאי השימוש","TermsOfUse","Home", new {area = ""}, new {target = "_blank"})
+                            </label>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label"></label>
+                            <div class="col-sm-9">
+                                <input type="submit" class="btn btn-primary" value="שלח טופס">
+                                <input type="reset" class="btn btn-secondary mr-2" id="register-reset" value="איפוס">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+@*
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {
+        @class = "form-horizontal",
+        role = "form"
+    })) {
+        @Html.AntiForgeryToken()
+        <h4>Create a new account.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Register" />
+            </div>
+        </div>
+    }
+
+*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            $("#register-error-firstName").hide();
+            $("#register-error-lastName").hide();
+            $("#register-error-email").hide();
+            $("#register-error-password").hide();
+            $("#register-error-passwordConfirm").hide();
+
+            var error_firstName = false;
+            var error_lastName = false;
+            var error_email = false;
+            var error_password = false;
+            var error_passwordConfirm = false;
+
+            $("#register-firstName").focusout(function () {
+                var firstName_length = $("#register-firstName").val().length;
+                if (firstName_length < 2) {
+                    $("#register-error-firstName").html("חייב להכיל לפחות שני תווים");
+                    $("#register-error-firstName").show();
+                    error_firstName = false;
+                } else {
+                    $("#register-error-firstName").hide();
+                    error_firstName = true;
+                }
+            });
+
+            $("#register-lastName").focusout(function () {
+                var firstName_length = $("#register-lastName").val().length;
+                if (firstName_length < 2) {
+                    $("#register-error-lastName").html("חייב להכיל לפחות שני תווים");
+                    $("#register-error-lastName").show();
+                    error_lastName = false;
+                } else {
+                    $("#register-error-lastName").hide();
+                    error_lastName = true;
+                }
+            });
+
+            $("#register-password").focusout(function () {
+                var firstName_length = $("#register-password").val().length;
+                if (firstName_length < 8) {
+                    $("#register-error-password").html("חייב להכיל לפחות שמנה תווים");
+                    $("#register-error-password").show();
+                    error_password = false;
+                } else {
+                    $("#register-error-password").hide();
+                    error_password = true;
+                }
+            });
+
+            $("#register-passwordConfirm").focusout(function () {
+                if ($("#register-password").val() != $("#register-passwordConfirm").val()) {
+                    $("#register-error-passwordConfirm").html("הסיסמאות לא תואמות");
+                    $("#register-error-passwordConfirm").show();
+                    error_passwordConfirm = false;
+                } else {
+                    $("#register-error-passwordConfirm").hide();
+                    error_passwordConfirm = true;
+                }
+            });
+
+            $("#register-email").focusout(function () {
+                var emailReg = new RegExp(/^[A-Z0-9._%+-]+@@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+
+                if (emailReg.test($("#register-email").val())) {
+                    $("#register-error-email").hide();
+                    error_email = true;
+                } else {
+                    $("#register-error-email").html("חייב להכיל כתובת חוקית");
+                    $("#register-error-email").show();
+                    error_email = false;
+                }
+
+            });
+
+            $("#register-reset").click(function () {
+
+                $("#register-error-firstName").hide();
+                $("#register-error-lastName").hide();
+                $("#register-error-email").hide();
+                $("#register-error-password").hide();
+                $("#register-error-passwordConfirm").hide();
+
+                error_firstName = false;
+                error_lastName = false;
+                error_email = false;
+                error_password = false;
+                error_passwordConfirm = false;
+            });
+
+            $("#register-form").submit(function () {
+                if (error_firstName == true && error_lastName == true && error_email == true && error_password == true && error_passwordConfirm == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,83 @@
+﻿@using Drole.ViewModels
+@model VisitPlaceFormViewModel
+
+@{
+    ViewBag.Title = Model.Title();
+}
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-xs-12 text-center" data-aos="zoom-in">
+            <h2 class="page-title">@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mx-auto col-sm-10 col-lg-8" data-aos="zoom-in">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0 text-center">@Model.SubTitle() מקום מומלץ לצילום</h4>
+                </div>
+                <div class="card-body text-right">
+                    @using (Html.BeginForm("Save", "VisitPlaces", FormMethod.Post, new {
+                        @class = "form-horizontal",
+                        role = "form",
+                        id = "new-country-form",
+                        autocomplete = "off",
+                        enctype = "multipart/form-data"
+                    })) {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group row">
+                            <label for="visitPlaceName" class="col-sm-3 col-form-label form-control-label">שם המקום</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(v => v.VisitPlace.Name, new {
+                               @class = "form-control",
+                               placeholder = "שם המקום",
+                               id = "visitPlaceName"
+                           })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="visitPlaceContent" class="col-sm-3 col-form-label form-control-label">תיאור המקום</label>
+                            <div class="col-sm-9">
+                                @Html.TextAreaFor(v => v.VisitPlace.Content, new {
+                               @class = "form-control",
+                               placeholder = "תיאור המקום",
+                               id = "visitPlaceContent",
+                               rows = "8"
+                           })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label">תמונת מהמדינה</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="IconImageFile"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label form-control-label"></label>
+                            <div class="col-sm-9">
+                                <input type="submit" class="btn btn-primary" value="שמור">
+                                <input type="reset" class="btn btn-secondary mr-2" id="new-country-reset" value="איפוס">
+                            </div>
+                        </div>
+
+                        @Html.HiddenFor(v => v.CountryId, new {value = Model.CountryId})
+                        @Html.HiddenFor(v => v.VisitPlace.Id, new {value = Model.VisitPlace.Id})
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

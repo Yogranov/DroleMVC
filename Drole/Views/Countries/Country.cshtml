@@ -1,0 +1,76 @@
+﻿@using Drole.ViewModels
+@model CountryViewModel
+
+@{
+    ViewBag.Title = Model.Country.Name;
+}
+<style>
+  body {
+    background-image: url("@Model.Country.BackgroundImageUrl");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }  
+</style>
+
+<div class="container country-main">
+    <div class="row mt-5">
+        <div class="col-sm-7">
+            <div class="mb-5" data-aos="zoom-in">
+                <h2 class="title float-right">@Model.Country.Name</h2>
+                <h6>יוצר: @Model.User.FirstName @Model.User.LastName</h6>
+                @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated) {
+                    @Html.ActionLink("ערוך", "Edit", "Countries", new { id = Model.Country.Id}, new { @class = "btn btn-outline-danger btn-sm  ml-2"})
+                    @Html.ActionLink("הוסף מקום מומלץ", "New", "VisitPlaces", new { countryId = Model.Country.Id }, new { @class = "btn btn-outline-primary btn-sm"})
+                }
+            </div>
+            <div class="text-right" data-aos="flip-up">
+                <h5>חוקים</h5>
+                <ul>
+                    @foreach (var law in Model.Laws) {
+                        <li><i class="fas fa-plane"></i> @law</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-5" data-aos="fade-down">
+            <img class="country-img" src="@Model.Country.ImageUrl" alt="@Model.Country.Name"/>
+        </div>
+    </div>
+
+    
+  @if (Model.VisitPlaces.Count > 0) {
+    <div class="row mt-5 text-right"> 
+      <h3 data-aos="flip-left">מקומות מומלצים לצילום:</h3> 
+   
+      @foreach (var visitPlace in Model.VisitPlaces) {
+        <div class="row mt-5 flex-row-reverse" data-aos="zoom-in"> 
+            <div class="col-xs-10 col-sm-7 col-md-8 col-lg-10">
+                <h4>@visitPlace.Name
+                    @if(System.Web.HttpContext.Current.User.Identity.IsAuthenticated) {
+                        @Html.ActionLink("עריכה", "Edit", "VisitPlaces", new { Id = @visitPlace.Id }, new { @class = "btn btn-outline-danger btn-sm"})
+                    }
+                </h4>
+                
+                <p>
+                    @visitPlace.Content
+                </p>
+            </div> 
+          <div class="col-xs-2 col-sm-5 col-md-4 col-lg-2 pre-photo-box"> 
+            <img class="pre-photo" src="@visitPlace.IconUrl"/> 
+          </div> 
+        </div> 
+      }
+    </div>
+  }
+    
+</div>
+
+@section scripts {
+  <script>
+    $( document ).ready(function() {
+      $("nav").addClass("country-page");
+    });
+  </script>
+}

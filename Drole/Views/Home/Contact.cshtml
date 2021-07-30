@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "צור קשר";
+}
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-sm-5 col-md-4 col-lg-3 col-xs-12 text-center" data-aos="zoom-in">
+            <h2 class="page-title">@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="row text-right justify-content-center mt-5">
+        <div class="col-sm-12" data-aos="zoom-in-down">
+            <div class="form-sec">
+                <form method="post" id="contact-us-form" class="contact-form">
+                    <ul>
+                        <li>
+                            <i class="fa fa-user form-icon"></i>
+                            <input type="text" placeholder="שם" id="contact-us-name" />
+                        </li>
+                        <li class="alert alert-danger" id="contact-us-name-error">
+                            חובה להזין שם
+                        </li>
+                        <li>
+                            <i class="fa fa-at form-icon"></i>
+                            <input type="text" placeholder="דואר אלקטרוני" id="contact-us-email"/>
+                        </li>
+                        <li class="alert alert-danger" id="contact-us-email-error">
+                            חובה להזין שם
+                        </li>
+                        <li>
+                            <i class="fa fa-phone form-icon"></i>
+                            <input type="number" placeholder="פלאפון" id="contact-us-phone"/>
+                        </li>
+                        <li class="alert alert-danger" id="contact-us-phone-error">
+                            חובה להזין שם
+                        </li>
+                        <li>
+                            <i class="fa fa-paper-plane form-icon"></i>
+                            <input type="text" placeholder="נושא הפניה" id="contact-us-subject"/>
+                        </li>
+                        <li class="alert alert-danger" id="contact-us-subject-error">
+                            חובה להזין שם
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope form-icon"></i>
+                            <textarea placeholder="תוכן הפניה..." rows="2" id="contact-us-content"></textarea>
+                        </li>
+                        <li class="alert alert-danger" id="contact-us-content-error">
+                            חובה להזין שם
+                        </li>
+                        <li style="border: none">
+                            <input type="submit" class="ml-2" placeholder="שלח" value="שלח"/>
+                            <input type="reset" class="mr-2" id="contact-us-reset" value="איפוס">
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+      $(function() {
+        $("#contact-us-name-error").hide();
+        $("#contact-us-email-error").hide();
+        $("#contact-us-phone-error").hide();
+        $("#contact-us-subject-error").hide();
+        $("#contact-us-content-error").hide();
+
+        var error_name = false;
+        var error_email = false;
+        var error_phone = false;
+        var error_subject = false;
+        var error_content = false;
+
+        $("#contact-us-name").focusout(function() {
+              var name_length = $("#contact-us-name").val().length;
+              if(name_length < 2) {
+                  $("#contact-us-name-error").html("חייב להכיל לפחות שני תווים");
+                    $("#contact-us-name-error").show();
+                    error_name = false;
+              } else {
+                  $("#contact-us-name-error").hide();
+                  error_name = true;
+              }
+          });
+
+          $("#contact-us-email").focusout(function() {
+              var emailReg = new RegExp(/^[A-Z0-9._%+-]+@@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+
+              if(emailReg.test($("#contact-us-email").val())) {
+                  $("#contact-us-email-error").hide();
+                  error_email = true;
+              } else {
+                $("#contact-us-email-error").html("חייב להכיל כתובת חוקית");
+                $("#contact-us-email-error").show();
+                error_email = false;
+              }
+            });
+
+            $("#contact-us-phone").focusout(function() {
+                  var phone_length = $("#contact-us-phone").val().length;
+                  if(phone_length != 10) {
+                      $("#contact-us-phone-error").html("חייב להכיל 10 מספרים");
+                        $("#contact-us-phone-error").show();
+                        error_phone = false;
+                  } else {
+                      $("#contact-us-phone-error").hide();
+                      error_phone = true;
+                  }
+              });
+
+              $("#contact-us-subject").focusout(function() {
+                    var subject_length = $("#contact-us-subject").val().length;
+                    if(subject_length < 4) {
+                        $("#contact-us-subject-error").html("חייב להכיל לפחות 4 תווים");
+                          $("#contact-us-subject-error").show();
+                          error_subject = false;
+                    } else {
+                        $("#contact-us-subject-error").hide();
+                        error_subject = true;
+                    }
+                });
+
+                $("#contact-us-content").focusout(function() {
+                      var content_length = $("#contact-us-content").val().length;
+                      if(content_length < 5 || content_length > 150) {
+                          $("#contact-us-content-error").html("חייב להכיל בין 5-150 תווים");
+                            $("#contact-us-content-error").show();
+                            error_content = false;
+                      } else {
+                          $("#contact-us-content-error").hide();
+                          error_content = true;
+                      }
+                  });
+
+
+                  $("#contact-us-reset").click(function() {
+
+                    $("#contact-us-name-error").hide();
+                    $("#contact-us-email-error").hide();
+                    $("#contact-us-phone-error").hide();
+                    $("#contact-us-subject-error").hide();
+                    $("#contact-us-content-error").hide();
+
+                    var error_name = false;
+                    var error_email = false;
+                    var error_phone = false;
+                    var error_subject = false;
+                    var error_content = false;
+                  });
+
+                  $("#contact-us-form").submit(function() {
+                    if(error_name == true && error_email == true && error_phone == true && error_subject == true && error_content == true) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  });
+
+      });
+    </script>
+}
